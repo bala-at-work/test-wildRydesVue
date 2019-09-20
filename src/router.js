@@ -2,9 +2,48 @@ import Vue from 'vue'
 import Router from 'vue-router'
 import Home from './views/Home.vue'
 
-Vue.use(Router)
+import { components, AmplifyEventBus } from 'aws-amplify-vue';
+import Amplify, * as AmplifyModules from 'aws-amplify';
+import { AmplifyPlugin } from 'aws-amplify-vue';
+import AmplifyStore from './store/store';
 
-export default new Router({
+
+Vue.use(Router);
+Vue.use(AmplifyPlugin, AmplifyModules);
+
+let user;
+
+getUser().then((user, error) => {
+  if (user) {
+    //router.push({path: '/profile'})
+  }
+})
+
+AmplifyEventBus.$on('authState', async (state) => {
+  if (state === 'signedOut'){
+    user = null;
+    AmplifyStore.commit('setUser', null);
+    router.push({path: '/auth'})
+  } else if (state === 'signedIn') {
+    user = await getUser();
+    router.push({path: '/ride'})
+  }
+});
+
+function getUser() {
+  return Vue.prototype.$Amplify.Auth.currentAuthenticatedUser().then((data) => {
+    if (data && data.signInUserSession) {
+      AmplifyStore.commit('setUser', data);
+      return data;
+    } 
+  }).catch((e) => {
+    AmplifyStore.commit('setUser', null);
+    return null
+  });
+}
+
+
+const router = new Router({
   mode: 'history',
   base: process.env.BASE_URL,
   routes: [
@@ -14,12 +53,58 @@ export default new Router({
       component: Home
     },
     {
-      path: '/about',
-      name: 'about',
-      // route level code-splitting
-      // this generates a separate chunk (about.[hash].js) for this route
-      // which is lazy-loaded when the route is visited.
-      component: () => import(/* webpackChunkName: "about" */ './views/About.vue')
-    }
+      path: '/unicorns',
+      name: 'unicorns',
+      component: () => import(/* webpackChunkName: "unicorns" */ './views/Unicorns.vue')
+    },
+    {
+      path: '/investors',
+      name: 'investors',
+      component: () => import(/* webpackChunkName: "investors" */ './views/Investors.vue')
+    },
+
+    {
+      path: '/faq',
+      name: 'faq',
+      component: () => import(/* webpackChunkName: "faq" */ './views/Faq.vue')
+    },
+
+    {
+      path: '/apply',
+      name: 'apply',
+      component: () => import(/* webpackChunkName: "apply" */ './views/Apply.vue')
+    },
+
+    {
+      path: '/auth',
+      name: 'auth',
+      component: () => import(/* webpackChunkName: "auth" */ './views/Auth.vue')
+      
+    },
+    {
+      path: '/ride',
+      name: 'ride',
+      meta: { requiresAuth: true},
+      component: () => import(/* webpackChunkName: "ride" */ './views/Ride.vue')
+    },
+    
   ]
-})
+});
+
+  router.beforeResolve(async (to, from, next) => {
+    if (to.matched.some(record => record.meta.requiresAuth)) {
+      user = await getUser();
+      if (!user) {
+        return next({
+          path: '/auth',
+          query: {
+            redirect: to.fullPath,
+          }
+        });
+      }
+      return next()
+    }
+    return next()
+  })
+  
+export default router

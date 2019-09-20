@@ -1,0 +1,19 @@
+{
+    "dev": {
+        "awscloudformation": {
+            "AuthRoleName": "wildrydes-dev-20190916144925-authRole",
+            "UnauthRoleArn": "arn:aws:iam::981723798357:role/wildrydes-dev-20190916144925-unauthRole",
+            "AuthRoleArn": "arn:aws:iam::981723798357:role/wildrydes-dev-20190916144925-authRole",
+            "Region": "eu-west-1",
+            "DeploymentBucketName": "wildrydes-dev-20190916144925-deployment",
+            "UnauthRoleName": "wildrydes-dev-20190916144925-unauthRole",
+            "StackName": "wildrydes-dev-20190916144925",
+            "StackId": "arn:aws:cloudformation:eu-west-1:981723798357:stack/wildrydes-dev-20190916144925/cbb8d270-d888-11e9-87b6-021d1d6e9e08"
+        },
+        "categories": {
+            "auth": {
+                "wildrydesb5c6daee": {}
+            }
+        }
+    }
+}
