@@ -15,5 +15,22 @@
                 "wildrydesb5c6daee": {}
             }
         }
+    },
+    "test": {
+        "awscloudformation": {
+            "AuthRoleName": "wildrydes-test-20190925104758-authRole",
+            "UnauthRoleArn": "arn:aws:iam::677501797858:role/wildrydes-test-20190925104758-unauthRole",
+            "AuthRoleArn": "arn:aws:iam::677501797858:role/wildrydes-test-20190925104758-authRole",
+            "Region": "us-east-1",
+            "DeploymentBucketName": "wildrydes-test-20190925104758-deployment",
+            "UnauthRoleName": "wildrydes-test-20190925104758-unauthRole",
+            "StackName": "wildrydes-test-20190925104758",
+            "StackId": "arn:aws:cloudformation:us-east-1:677501797858:stack/wildrydes-test-20190925104758/8ec7b3c0-df79-11e9-a39a-0e8cd4caae34"
+        },
+        "categories": {
+            "auth": {
+                "wildrydesb5c6daee": {}
+            }
+        }
     }
 }
