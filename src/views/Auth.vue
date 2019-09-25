@@ -12,7 +12,7 @@
         </div>
       </div>
       <header>
-        <img src="images/logo.png">
+        <img src="/images/logo.png">
       </header>
       <div style="text-align:center;"> 
         <amplify-authenticator></amplify-authenticator>
