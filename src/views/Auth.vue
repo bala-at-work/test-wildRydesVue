@@ -15,7 +15,7 @@
         <img src="images/logo.png">
       </header>
       <div style="text-align:center;"> 
-        <amplify-authenticator></amplify-authenticator>
+        
       </div>
       <div class="container" style="text-align:center;">
           <h1 v-if="user">{{user.username}}'s profile</h1>
@@ -63,6 +63,11 @@ export default {
         { type: 'string', name: 'phone_number', label: 'Phone Number' }
       ],
     };
+  },
+  mounted(){
+      //console.log('sdf')
+      // console.log(Auth._config)
+      
   },
   methods: {
     toggleAccordion: function(el) {
