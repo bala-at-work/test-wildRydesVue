@@ -1,5 +1,9 @@
 <template>
-    <div class="page-apply">
+    <div class="page-auth">
+
+    <menus class="site-header" title="title" />
+
+
       <div id="noCognitoMessage" class="configMessage" style="display: none;">
         <div class="backdrop"></div>
         <div class="panel panel-default">
@@ -18,14 +22,9 @@
         <amplify-authenticator></amplify-authenticator>
       </div>
       <div class="container" style="text-align:center;">
-          <h1 v-if="user">{{user.username}}'s profile</h1>
-          <div>
-            <profileForm
-              :user="user"
-              :fields="fields"
-              v-if="user"
-            />
-          </div>
+          <h3 v-if="user">{{user.username}} is Logged in</h3>
+          <a  v-if="user" class="home-button" href="/ride">Giddy Up!</a>
+          
       </div>
     </div>
 
@@ -107,6 +106,26 @@ export default {
 
 </script>
 
-<style>
-  @import '/css/index.css'
+<style scoped>
+.page-auth{
+  width: 100vw;
+  height: 100vh;
+  background-image: url(~/images/background.png);
+  background-size: cover;
+  background-repeat: no-repeat;
+  background-position: center bottom;
+  font-family: "fairplex-wide";
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+/* Logo */
+header{
+  width: 100vw;
+  padding: 30px 0 100px;
+}
+header img{
+  margin: 0 auto;
+  display: block;
+}
 </style>

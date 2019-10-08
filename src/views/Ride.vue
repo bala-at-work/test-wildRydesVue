@@ -120,7 +120,7 @@ export default {
 }
 </script>
 
-<style>
+<style scoped>
 @import 'https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css';
 @import 'https://js.arcgis.com/4.3/esri/css/main.css';
 @import '/css/ride.css';
