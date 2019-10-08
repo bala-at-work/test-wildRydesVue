@@ -6,15 +6,9 @@
 
    <div class="info panel panel-default">
         <div class="panel-heading">
-            <button id="request" class="btn btn-primary" :disabled="disableInputBool" v-on:click="triggerRequest()" >Set pickup</button>
-            <div class="dropdown pull-right">
-                <button id="accountLink" class="btn" type="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                    Account <span class="caret"></span>
-                </button>
-                <ul class="dropdown-menu" aria-labelledby="accountLink">
-                    <li><a id="signOut" href="#">Sign out</a></li>
-                </ul>
-            </div>
+            <button id="request" class="btn btn-primary" :disabled="disableInputBool" v-on:click="triggerRequest()" >{{buttonText}}</button>
+            <button id="signout" class="btn pull-right" v-on:click="signout()" >Sign Out</button>
+
         </div>
         <div class="panel-body">
             <ol id="updates">
@@ -26,34 +20,6 @@
             </ol>
         </div>
   </div>
-
-  
-
-   <div id="noApiMessage" class="configMessage" style="display: none;">
-        <div class="backdrop"></div>
-        <div class="panel panel-default">
-            <div class="panel-heading">
-                <h3 class="panel-title">Successfully Authenticated!</h3>
-            </div>
-            <div class="panel-body">
-                <p>This page is not functional yet because there is no API invoke URL configured in <a href="/js/config.js">/js/config.js</a>. You'll configure this in Module 3.</p>
-                <p>In the meantime, if you'd like to test the Amazon Cognito user pool authorizer for your API, use the auth token below:</p>
-                <textarea class="authToken"></textarea>
-            </div>
-        </div>
-    </div>
-
-    <div id="noCognitoMessage" class="configMessage" style="display: none;">
-        <div class="backdrop"></div>
-        <div class="panel panel-default">
-            <div class="panel-heading">
-                <h3 class="panel-title">No Cognito User Pool Configured</h3>
-            </div>
-            <div class="panel-body">
-                <p>There is no user pool configured in <a href="/js/config.js">/js/config.js</a>. You'll configure this in Module 2 of the workshop.</p>
-            </div>
-        </div>
-    </div>
 
     <div id="main">
         <div id="map">
@@ -68,6 +34,11 @@
                     <h4 class="modal-title" id="myModalLabel">Your Auth Token</h4>
                 </div>
                 <div class="modal-body">
+                   
+                    <div class="AuthMessage" v-if="authMessage === true">
+                        <p>This page is not functional yet because there is no API invoke URL configured in <a href="/src/config.js">/src/config.js</a>. You'll configure this in Module 3.</p>
+                        <p>In the meantime, if you'd like to test the Amazon Cognito user pool authorizer for your API, use the auth token below:</p>
+                    </div>
                     <textarea class="authToken">{{authToken}}</textarea>
                 </div>
                 <div class="modal-footer">
@@ -84,6 +55,7 @@ import Vue from 'vue'
 import footers from '@/components/footer.vue'
 import mapView from '@/components/map.vue'
 import VModal from 'vue-js-modal'
+var config = require('../config.js')
 
 Vue.use(VModal)
 
@@ -96,8 +68,9 @@ export default {
 
           authToken:"",
           showModal:false,
-          authMessage:"",
+          authMessage:false,
           disableInputBool:true,
+          buttonText:"Set Pickup",
       }
   },
   components: {
@@ -106,13 +79,14 @@ export default {
     map:{}
   },
   async mounted(){
-
         const session = await this.$Amplify.Auth.currentSession()
         const Jwt = session.idToken.jwtToken; 
+        if (config.api.invokeUrl===""){
+            this.authMessage = true;
+            this.show()
+        }
         
-
-console.log(session)
-
+        
         if(!Jwt){
             alert('No Authorization token!')
         }else{
@@ -121,15 +95,17 @@ console.log(session)
         
   },
   methods: {
-      addItem(text){
-          this.items.push({message:text})
-      },
+         addItem(text){
+             this.items.push({message:text})
+         },
         enableButton(ev){
             this.disableInputBool=false
             this.map = ev
+            this.buttonText="Request Unicorn"
         },
         disableButton(){
             this.disableInputBool=true
+             this.buttonText="Set Pickup"
         },
         show () {
             this.$modal.show('auth-modal');
@@ -140,6 +116,10 @@ console.log(session)
         triggerRequest (){
             this.$children[0].go(this.map)
             this.disableButton();
+        },
+        signout: async function() {
+            const session = await this.$Amplify.Auth.signOut()
+            this.$router.push('auth')
         }
     }
 }

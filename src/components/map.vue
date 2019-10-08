@@ -189,7 +189,7 @@ var config = require('../config.js')
                     this.displayUpdate(unicorn.Name + ', your ' + unicorn.Color + ' unicorn, is on ' + pronoun + ' way.');
                     this.animateArrival(function animateCallback() {
                         self.displayUpdate(unicorn.Name + ' has arrived. Giddy up!');
-                        self.webmap.unsetLocation();
+                        //self.webmap.unsetLocation();
                     });
                 },
                 displayUpdate: function(text) {
