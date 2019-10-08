@@ -7,8 +7,7 @@
    <div class="info panel panel-default">
         <div class="panel-heading">
             <button id="request" class="btn btn-primary" :disabled="disableInputBool" v-on:click="triggerRequest()" >{{buttonText}}</button>
-            <button id="signout" class="btn pull-right" v-on:click="signout()" >Sign Out</button>
-
+            <amplify-sign-out></amplify-sign-out>
         </div>
         <div class="panel-body">
             <ol id="updates">
@@ -116,10 +115,6 @@ export default {
         triggerRequest (){
             this.$children[0].go(this.map)
             this.disableButton();
-        },
-        signout: async function() {
-            const session = await this.$Amplify.Auth.signOut()
-            this.$router.push('auth')
         }
     }
 }

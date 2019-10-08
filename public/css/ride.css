@@ -18,6 +18,21 @@ html, body, #main, #map {
     background: transparent;
 }
 
+.panel-heading div[data-test="sign-out-section"] {
+    background: transparent;
+    position: absolute;
+    right: 0px;
+    top: 0px;
+}
+
+.panel-heading button[data-test="sign-out-button"] {
+    background:transparent;
+    min-width: 100px;
+    color:black;
+    letter-spacing: 0.5px;
+    border: none;
+}
+
 #request {
     position: relative;
     background: #fcc1d4 none repeat scroll 0 0;
