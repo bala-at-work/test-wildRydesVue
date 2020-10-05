@@ -1,3 +1,10 @@
 {
-
+  "auth": {
+    "wildrydes4dddf5c8": {
+      "service": "Cognito",
+      "providerPlugin": "awscloudformation",
+      "dependsOn": [],
+      "customAuth": false
+    }
+  }
 }
